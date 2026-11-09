@@ -36,10 +36,17 @@ OpenHands 执行 answer / retrieve
 
 M3 提供两个能力：
 
-1. OpenAI-compatible vLLM API：http://127.0.0.1:8000/v1
+1. OpenAI-compatible vLLM API：
 
+```text
+http://127.0.0.1:8000/v1
+```
 
-2. stdio MCP Server：python -m mcp_server.server
+2. stdio MCP Server：
+
+```bash
+python -m mcp_server.server
+```
 
 ---
 
@@ -57,7 +64,7 @@ M3 提供两个能力：
 | 模型 | `Qwen/Qwen2.5-7B-Instruct` |
 | 对外模型名 | `qwen2.5-7b` |
 | 推理精度 | BF16 |
-| vLLM 环境 | `.venv1` |
+| vLLM 环境 | `.venv-vllm` |
 | MCP 环境 | `.venv-m3` |
 
 Qwen2.5-7B 可以在单张 A40 上运行，不需要 tensor parallel，也不应默认使用量化模型。
@@ -68,6 +75,9 @@ Qwen2.5-7B 可以在单张 A40 上运行，不需要 tensor parallel，也不应
 
 ## 3. 目录与文件
 
+M3 相关文件：
+
+```text
 model_runtime/vllm/
 ├── start_qwen25_7b.sh       # 启动 vLLM
 ├── smoke_test.py            # vLLM 与 logprobs 测试
@@ -80,13 +90,19 @@ mcp_server/
 ├── server.py                # MCP calibrate 工具
 ├── e2e_smoke_test.py        # vLLM → MCP 真实闭环测试
 └── tests/
+```
 
+模型权重位于：
 
-模型权重位于：calibrator/training/artifacts/
+```text
+calibrator/training/artifacts/
+```
 
+P1 离线特征资源位于：
 
-P1 离线特征资源位于：reference/Popular-but-Wrong/
-
+```text
+reference/Popular-but-Wrong/
+```
 
 ---
 
@@ -100,7 +116,7 @@ srun \
   --gres=gpu:1 \
   --cpus-per-task=8 \
   --mem=32G \
-  --time=06:00:00 \
+  --time=02:00:00 \
   --pty bash -l
 ```
 
@@ -128,7 +144,7 @@ mkdir -p "$M3_HF_HOME"
 
 ```bash
 cd /path/to/30-LLM-Project
-source .venv1/bin/activate
+source .venv-vllm/bin/activate
 
 model_runtime/vllm/start_qwen25_7b.sh
 ```
